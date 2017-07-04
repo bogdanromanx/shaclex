@@ -275,6 +275,19 @@ object JenaUtils {
     result.asScala.toSeq.map(qs => (qs.get("sub"), qs.get("obj")))
   }
 
+  /**
+    * Checks is a `node rdfs:subClassOf* cls`
+    */
+  def hasSubClass(subClass: RDFNode, superClass: RDFNode, model: Model): Boolean = {
+    val pss : ParameterizedSparqlString = new ParameterizedSparqlString()
+    pss.setNsPrefix("rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+    pss.setNsPrefix("rdfs","http://www.w3.org/2000/01/rdf-schema#")
+    pss.setCommandText("ASK { ?sub rdfs:subClassOf* ?super . }")
+    pss.setParam("sub",subClass)
+    pss.setParam("super",superClass)
+    QueryExecutionFactory.create(pss.asQuery, model).execAsk
+  }
+
   def objectsFromPath(subj: RDFNode, path: Path, model: Model): Seq[RDFNode] = {
     // Build the following query:
     // SELECT ?obj { ?n ?path ?obj }

@@ -41,4 +41,56 @@ class SchemaTest extends FunSpec with Matchers with EitherValues {
       }
     }
   }
+
+  describe("Simple schema with sh:rootClass check") {
+    it("Validates a simple Schema with sh:rootClass check using Shacl") {
+
+      val schema ="""|@prefix : <http://example.org/>
+                     |@prefix sh: <http://www.w3.org/ns/shacl#>
+                     |@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                     |@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                     |
+                     |:S a sh:NodeShape;
+                     |   sh:targetNode :good1 ;
+                     |   sh:property [ sh:path :p ;
+                     |                 sh:rootClass :SuperClass;
+                     |                 sh:minCount 1
+                     |               ] .
+                     |
+                     |
+                     |""".stripMargin
+      val data =
+        """|@prefix : <http://example.org/>
+           |@prefix sh: <http://www.w3.org/ns/shacl#>
+           |@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+           |@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+           |
+           |:aClass rdfs:subClassOf :SuperClass.
+           |
+           |:SubClass rdfs:subClassOf :aClass.
+           |:good1 :p :SubClass .
+           |""".stripMargin
+
+      val schemaFormat = "TURTLE"
+      val dataFormat = "TURTLE"
+      val triggerMode = "TARGETDECLS"
+      val schemaEngine = "ShaClex"
+      val node: RDFNode = IRI("http://example.org/good1")
+      val shape: SchemaLabel = SchemaLabel(IRI("http://example.org/S"))
+      val tryResult: Either[String, Result] = for {
+        schema <- Schemas.fromString(schema,schemaFormat,schemaEngine,None)
+        rdf <- RDFAsJenaModel.fromChars(data,dataFormat)
+      } yield
+        schema.validate(rdf,triggerMode,"",None,None,schema.pm)
+      tryResult match {
+        case Right(result) => {
+          info(s"Result: ${result.serialize(Result.JSON)}")
+          info(s"Result solution: ${result.solution}")
+          result.isValid should be(true)
+          result.hasShapes(node) should contain (shape)
+        }
+        case Left(e) => fail(s"Error trying to validate: $e")
+      }
+    }
+  }
 }

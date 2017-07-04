@@ -107,6 +107,11 @@ case class RDFAsJenaModel(model: Model)
       map(p => (JenaMapper.jenaNode2RDFNode(p._1), JenaMapper.jenaNode2RDFNode(p._2)))
     pairs.toSet
   }
+  override def hasSHACLRootClass(n: RDFNode, c: RDFNode): Boolean = {
+    val subClassJena : JenaRDFNode = JenaMapper.rdfNode2JenaNode(n, model)
+    val superClasscJena : JenaRDFNode = JenaMapper.rdfNode2JenaNode(c, model)
+    JenaUtils.hasSubClass(subClassJena,superClasscJena,model)
+  }
 
   override def objectsWithPath(subj: RDFNode, path: SHACLPath): Set[RDFNode] = {
     val jenaNode: JenaRDFNode = JenaMapper.rdfNode2JenaNode(subj, model)

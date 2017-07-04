@@ -253,6 +253,7 @@ case class ShapeRef(id: RDFNode) extends AnyVal {
 }
 
 case class ClassComponent(value: RDFNode) extends Component
+case class RootClassComponent(value: RDFNode) extends Component
 case class Datatype(value: IRI) extends Component
 case class NodeKind(value: NodeKindType) extends Component
 case class MinCount(value: Int) extends Component

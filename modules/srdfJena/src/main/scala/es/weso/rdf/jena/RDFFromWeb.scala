@@ -107,6 +107,10 @@ case class RDFFromWeb() extends RDFReader {
     JenaMapper.wellTypedDatatype(node, datatype)
 
 
+  override def hasSHACLRootClass(n: RDFNode, c: RDFNode): Boolean = {
+    throw new Exception(s"Undefined hasSHACL at RDFFromWeb. Node: $n Class: $c")
+  }
+
   def model2triples(model: Model): Set[RDFTriple] = {
     model.listStatements().asScala.map(st => statement2triple(st)).toSet
   }

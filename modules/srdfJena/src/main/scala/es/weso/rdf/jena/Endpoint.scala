@@ -70,6 +70,10 @@ case class Endpoint(endpoint: String) extends RDFReader with RDFReasoner {
     throw new Exception(s"Undefined hasSHACL at Endpoint. Node: $n Class: $c")
   }
 
+  override def hasSHACLRootClass(n: RDFNode, c: RDFNode): Boolean = {
+    throw new Exception(s"Undefined hasSHACL at Endpoint. Node: $n Class: $c")
+  }
+
   override def nodesWithPath(p: SHACLPath): Set[(RDFNode, RDFNode)] = {
     throw new Exception(s"Undefined nodesWithPath at RDFFromWeb. Path: $p")
   }

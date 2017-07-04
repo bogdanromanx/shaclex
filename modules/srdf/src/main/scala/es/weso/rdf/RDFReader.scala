@@ -136,6 +136,12 @@ trait RDFReader {
    */
   def hasSHACLClass(node: RDFNode, cls: RDFNode): Boolean
 
+
+  /**
+    * `true` if `node rdfs:subClassOf* cls`
+    */
+  def hasSHACLRootClass(node: RDFNode, cls: RDFNode): Boolean
+
   /**
    * return the SHACL instances of a node `cls`
    * A node `node` is a shacl instance of `cls` if `node rdf:type/rdfs:subClassOf* cls`

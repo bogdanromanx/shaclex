@@ -75,6 +75,8 @@ object SHACLPrefixes {
 
   lazy val sh_text: IRI = sh + "text"
 
+  lazy val sh_rootClass : IRI= sh + "rootClass"
+
   lazy val defaultPrefixMap = PrefixMap(
     Map(
       Prefix("sh") -> sh,

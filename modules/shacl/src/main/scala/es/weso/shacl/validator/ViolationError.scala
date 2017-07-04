@@ -51,6 +51,9 @@ object ViolationError {
   def classError(focusNode: RDFNode, cls: RDFNode, attempt: Attempt) =
     basic("classError", focusNode, attempt, s"Node $focusNode doesn't belong to class $cls")
 
+  def rootClassError(focusNode: RDFNode, cls: RDFNode, attempt: Attempt) =
+    basic("rootClassError", focusNode, attempt, s"Node $focusNode is not a subclass of $cls")
+
   def datatypeError(focusNode: RDFNode, datatype: RDFNode, attempt: Attempt) =
     basic("dataTypeError", focusNode, attempt, s"Node $focusNode doesn't have dataType $datatype")
 
