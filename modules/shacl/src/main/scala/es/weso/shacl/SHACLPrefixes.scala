@@ -12,6 +12,7 @@ object SHACLPrefixes {
   }
 
   lazy val sh = IRI("http://www.w3.org/ns/shacl#")
+  lazy val shext = IRI("http://www.w3.org/ns/shacl/ext#")
 
   lazy val sh_IRI: IRI = sh + "IRI"
   lazy val sh_Literal: IRI = sh + "Literal"
@@ -75,13 +76,15 @@ object SHACLPrefixes {
 
   lazy val sh_text: IRI = sh + "text"
 
-  lazy val sh_rootClass : IRI= sh + "rootClass"
+  lazy val shext_rootClass : IRI= shext + "rootClass"
 
   lazy val defaultPrefixMap = PrefixMap(
-    Map(
-      Prefix("sh") -> sh,
-      Prefix("rdf") -> rdf,
-      Prefix("xsd") -> xsd,
-      Prefix("rdfs") -> rdfs))
+    Map(Prefix("sh") -> sh,
+        Prefix("shext") -> shext,
+        Prefix("rdf") -> rdf,
+        Prefix("xsd") -> xsd,
+        Prefix("rdfs") -> rdfs
+    )
+  )
 
 }
