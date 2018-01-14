@@ -14,7 +14,7 @@ import es.weso.utils.TryUtils._
 
 import scala.util.{ Failure, Success, Try }
 
-object RDF2Shacl extends RDFParser with LazyLogging {
+class RDF2Shacl extends RDFParser with LazyLogging {
 
   // Keep track of parsed shapes
   // TODO: Refactor this code to use a StateT
@@ -487,4 +487,12 @@ object RDF2Shacl extends RDFParser with LazyLogging {
   def noTarget: Seq[Target] = Seq()
   def noPropertyShapes: Seq[PropertyShape] = Seq()
 
+}
+
+object RDF2Shacl {
+  final def getShacl(rdf: RDFReader): Either[String, Schema] =
+    new RDF2Shacl().getShacl(rdf)
+
+  final def tryGetShacl(rdf: RDFReader): Try[Schema] =
+    new RDF2Shacl().tryGetShacl(rdf)
 }
