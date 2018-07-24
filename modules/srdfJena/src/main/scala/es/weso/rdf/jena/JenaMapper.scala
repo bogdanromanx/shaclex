@@ -1,12 +1,9 @@
 package es.weso.rdf.jena
 
 // TODO: Refactor this code
-import org.apache.jena.rdf.model.{AnonId, ModelFactory, Property, Resource, Statement,
-  Model => JenaModel,
-  RDFNode => JenaRDFNode
-}
+import org.apache.jena.rdf.model.{AnonId, ModelFactory, Property, Resource, Statement, Model => JenaModel, RDFNode => JenaRDFNode}
 import es.weso.rdf.nodes._
-import org.apache.jena.datatypes.BaseDatatype
+import org.apache.jena.datatypes.{BaseDatatype, TypeMapper}
 import org.apache.jena.datatypes.xsd.XSDDatatype
 import es.weso.rdf.triples.RDFTriple
 
@@ -230,19 +227,16 @@ object JenaMapper {
 
   def wellTypedDatatype(node: RDFNode, expectedDatatype: IRI): Either[String, Boolean] = {
     node match {
-      case l: es.weso.rdf.nodes.Literal => {
+      case l: es.weso.rdf.nodes.Literal =>
         Try {
-          val jenaLiteral = emptyModel.createTypedLiteral(l.getLexicalForm, l.dataType.str)
-          jenaLiteral.getValue // if it is ill-typed it raises an exception
+          val expectedRDFDatatype = TypeMapper.getInstance().getSafeTypeByName(expectedDatatype.str)
+          val jenaLiteral = emptyModel.createTypedLiteral(l.getLexicalForm, expectedRDFDatatype)
+          val _ = jenaLiteral.getValue // if it is ill-typed it raises an exception
           jenaLiteral.getDatatypeURI
         } match {
-          case Success(iri) => {
-            // println(s"JenaMapper.welltypedDatatype, $node. Comparing $expectedDatatype with $iri")
-            Right(iri == expectedDatatype.str)
-          }
-          case Failure(e) => Left(e.getMessage)
+          case Success(iri) => Right(iri == expectedDatatype.str)
+          case Failure(e)   => Left(e.getMessage)
         }
-      }
       case _ => Right(false)
     }
   }
