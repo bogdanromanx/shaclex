@@ -290,6 +290,7 @@ class RDF2Shacl extends RDFParser with LazyLogging {
       in)(n,rdf)
     cs2 <- anyOfLs(
       classComponent,
+      rootClassComponent,
       datatype,
       nodeKind,
       minCount, maxCount,
@@ -305,6 +306,11 @@ class RDF2Shacl extends RDFParser with LazyLogging {
   } yield {
     cs
   }
+
+  def rootClassComponent: RDFParser[List[RootClassComponent]] = (n, rdf) =>
+    for {
+      cs <- parsePredicateList(shext_rootClass, RootClassComponent)(n, rdf)
+    } yield cs
 
   private def datatype: RDFParser[List[Datatype]] = parsePredicateIRIList(sh_datatype, Datatype)
 

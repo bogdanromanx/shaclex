@@ -132,6 +132,7 @@ class Shacl2RDF extends RDFSaver with LazyLogging {
 
   private def component(id: RDFNode)(c: Component): RDFSaver[Unit] = c match {
     case ClassComponent(v) => addTriple(id, sh_class, v)
+    case RootClassComponent(v) => addTriple(id, shext_rootClass, v)
     case Datatype(iri) => addTriple(id, sh_datatype, iri)
     case NodeKind(value) => addTriple(id, sh_nodeKind, value.id)
     case MinCount(n) => addTriple(id, sh_minCount, IntegerLiteral(n))

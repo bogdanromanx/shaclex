@@ -8,6 +8,7 @@ import es.weso.rdf._
 object SHACLPrefixes {
 
   lazy val sh = IRI("http://www.w3.org/ns/shacl#")
+  lazy val shext = IRI("http://www.w3.org/ns/shacl/ext#")
 
   lazy val sh_BlankNode: IRI = sh + "BlankNode"
   lazy val sh_BlankNodeOrIRI: IRI = sh + "BlankNodeOrIRI"
@@ -28,7 +29,6 @@ object SHACLPrefixes {
   lazy val sh_and: IRI = sh + "and"
   lazy val sh_alternativePath: IRI = sh + "alternativePath"
   lazy val sh_class: IRI = sh + "class"
-  lazy val sh_rootClass: IRI= sh + "rootClass"
   lazy val sh_closed: IRI = sh + "closed"
   lazy val sh_conforms: IRI = sh + "conforms"
   lazy val sh_datatype: IRI = sh + "datatype"
@@ -82,9 +82,12 @@ object SHACLPrefixes {
   lazy val sh_zeroOrMorePath: IRI = sh + "zeroOrMorePath"
   lazy val sh_zeroOrOnePath: IRI = sh + "zeroOrOnePath"
 
+  lazy val shext_rootClass: IRI= shext + "rootClass"
+
   lazy val defaultPrefixMap = PrefixMap(
     Map(
       Prefix("sh") -> sh,
+      Prefix("shext") -> shext,
       Prefix("rdf") -> rdf,
       Prefix("xsd") -> xsd,
       Prefix("rdfs") -> rdfs))

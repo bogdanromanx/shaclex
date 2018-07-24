@@ -62,18 +62,19 @@ class SchemaTest extends FunSpec with Matchers with EitherValues {
     }
   }
 
-  describe("Simple schema with sh:rootClass check") {
-    it("Validates a simple Schema with sh:rootClass check using Shacl") {
+  describe("Simple schema with shext:rootClass check") {
+    it("Validates a simple Schema with shext:rootClass check using Shacl") {
       val schema =
         """|@prefix : <http://example.org/>
            |@prefix sh: <http://www.w3.org/ns/shacl#>
+           |@prefix shext: <http://www.w3.org/ns/shacl/ext#>
            |@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
            |@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
            |
            |:S a sh:NodeShape;
            |   sh:targetNode :good1 ;
            |   sh:property [ sh:path :p ;
-           |                 sh:rootClass :SuperClass;
+           |                 shext:rootClass :SuperClass;
            |                 sh:minCount 1
            |               ] .
            |
@@ -81,7 +82,6 @@ class SchemaTest extends FunSpec with Matchers with EitherValues {
            |""".stripMargin
       val data =
         """|@prefix : <http://example.org/>
-           |@prefix sh: <http://www.w3.org/ns/shacl#>
            |@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
            |@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
            |
