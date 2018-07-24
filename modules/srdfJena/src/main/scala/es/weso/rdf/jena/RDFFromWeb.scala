@@ -94,6 +94,10 @@ case class RDFFromWeb() extends RDFReader {
     throw new Exception(s"Undefined hasSHACL at RDFFromWeb. Node: $n Class: $c")
   }
 
+  override def hasSHACLRootClass(n: RDFNode, c: RDFNode): Boolean = {
+    throw new Exception(s"Undefined hasSHACLRootClass at RDFFromWeb. Node: $n Class: $c")
+  }
+
   override def nodesWithPath(p: SHACLPath): Set[(RDFNode, RDFNode)] = {
     throw new Exception(s"Undefined nodesWithPath at RDFFromWeb. Path: $p")
   }

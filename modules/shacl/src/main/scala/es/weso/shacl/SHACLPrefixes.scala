@@ -28,6 +28,7 @@ object SHACLPrefixes {
   lazy val sh_and: IRI = sh + "and"
   lazy val sh_alternativePath: IRI = sh + "alternativePath"
   lazy val sh_class: IRI = sh + "class"
+  lazy val sh_rootClass: IRI= sh + "rootClass"
   lazy val sh_closed: IRI = sh + "closed"
   lazy val sh_conforms: IRI = sh + "conforms"
   lazy val sh_datatype: IRI = sh + "datatype"

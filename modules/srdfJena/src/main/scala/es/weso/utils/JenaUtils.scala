@@ -5,9 +5,7 @@ import org.apache.jena.sparql.syntax.ElementPathBlock
 import org.apache.jena.riot.system.IRIResolver
 import java.io.ByteArrayInputStream
 
-import org.apache.jena.query.Query
-import org.apache.jena.query.QueryExecutionFactory
-import org.apache.jena.query.QueryFactory
+import org.apache.jena.query._
 import java.io.StringWriter
 import java.net.URI
 import java.net.URL
@@ -16,7 +14,6 @@ import java.io.FileOutputStream
 
 import org.apache.jena.atlas.AtlasException
 import org.apache.jena.riot.RiotException
-import org.apache.jena.query.ResultSet
 
 import scala.collection.JavaConverters._
 import org.apache.jena.reasoner.ReasonerRegistry
@@ -218,6 +215,19 @@ object JenaUtils {
    */
   def hasClass(n: RDFNode, c: RDFNode, model: Model): Boolean = {
     getSHACLTypes(n, model).exists(sameNodeAs(_,c))
+  }
+
+  /**
+    * Checks is a `node rdfs:subClassOf* cls`
+    */
+  def hasSubClass(subClass: RDFNode, superClass: RDFNode, model: Model): Boolean = {
+    val pss: ParameterizedSparqlString = new ParameterizedSparqlString()
+    pss.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+    pss.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
+    pss.setCommandText("ASK { ?sub rdfs:subClassOf* ?super . }")
+    pss.setParam("sub", subClass)
+    pss.setParam("super", superClass)
+    QueryExecutionFactory.create(pss.asQuery, model).execAsk
   }
 
   lazy val rdfTypeUrl = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"

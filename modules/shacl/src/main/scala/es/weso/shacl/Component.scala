@@ -9,6 +9,9 @@ sealed abstract class Component {
 case class ClassComponent(value: RDFNode) extends Component {
   override val name: String = "class"
 }
+case class RootClassComponent(value: RDFNode) extends Component {
+  override val name: String = "rootClass"
+}
 case class Datatype(value: IRI) extends Component {
   override val name: String = "datatype"
 }

@@ -108,6 +108,8 @@ case class RDFAsRDF4jModel(model: Model)
     RDF4jUtils.getSHACLInstances(c,model) contains(n)
   }
 
+  override def hasSHACLRootClass(n: RDFNode, c: RDFNode): Boolean = ???
+
   override def nodesWithPath(path: SHACLPath): Set[(RDFNode, RDFNode)] = {
     /*
     val jenaPath: Path = JenaMapper.path2JenaPath(path, model)
